@@ -1,7 +1,5 @@
 from django.shortcuts import render,HttpResponse,redirect
 from django.http import HttpResponseRedirect
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
 import csv
 import operator
 import os
@@ -102,8 +100,7 @@ def search(request):
 				blogs=blogs+' '+i
 				print(blogs)	
 
-		titles=post_title		
-		return render(request,'display_post.html',{"blogs":blogs,"titles":titles})
+		return render(request,'display_post.html',{"blogs":blogs})
 
 			# new_data={}
 			# for i in data
@@ -164,50 +161,19 @@ def delete(request):
 		secondary_path = os.path.join('secondary files','secondary_index.csv')
 		os.rename(new_secondary_path, secondary_path)		
 
+
+		#with open(text_path,'r+') as readfile:
+		#	data=readfile.read()
+		#	print(data)
+		#	print(type(data))
+		#	data=data.split()
+		#	blogs=''
+		#	for i in data:
+		#		blogs=blogs+' '+i
+		#		print(blogs)
+
+		#return render(request,'display_post.html',{"blogs":blogs})
+
+			# new_data={}
+			# for i in data
 	return render(request,'delete.html')
-
-def signup(request):
-	# if request.user.is_authenticated:
-	# 	return 	redirect("/home/")
-
-	if request.method=="POST":
-		email=request.POST.get('email')
-		password1=request.POST.get('password1')
-		password2=request.POST.get('password2')
-		
-		try:
-			user=User.objects.get(username=email)
-			return render(request,"signup.html",{"error":"user with this email already exists"})
-		except:
-			if password1==password2:
-				user=User.objects.create_user(username=email,email=email,password=password1,is_staff=True)
-
-				login(request,user)
-
-				return redirect("/login/")
-
-			else:
-				return render(request,"signup.html",{"error":" the passwords do not match "})	
-
-	return render(request,"signup.html")			
-
-def signin(request):
-	
-	if request.method=="POST":
-		email=request.POST.get('email')
-		print(email)
-		password=request.POST.get('password')
-		print(password)
-		user=authenticate(request,username=email,password=password) 
-		print(user)
-		if user is not None:
-			login(request,user)
-
-			return redirect("/home/")	
-		else:
-			print("User is None")
-	return render(request,"login.html")
-
-def signout(request):
-	logout(request)
-	return redirect('/signin/')
