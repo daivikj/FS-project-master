@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<form method="post">
+		{% csrf_token %}
+		<input type="text" name="title" placeholder="title name">
+		<hr>
+		<input type="text" name="author" placeholder="author name">
+		<hr>
+		<input type="text" name="category" placeholder="category">
+		<hr>
+		<input type="text" name="blog" placeholder="write here...">
+		<button type="submit">Save</button>
+	</form>
+		
+</body>
+</html>
