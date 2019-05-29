@@ -5,7 +5,6 @@ from django.contrib.auth import authenticate, login, logout
 import csv
 import operator
 import os
-# Create your views here.
 
 def add(request):
 	if request.method=="POST":
@@ -19,7 +18,6 @@ def add(request):
 		with open(blog_path,'w+') as f:
 
 			f.write(blog_post)
-
 			f.close()
 
 		primary_path=os.path.join('primary files','primary_index.csv')	
@@ -36,10 +34,7 @@ def add(request):
 				wr=csv.writer(file,dialect='excel')
 
 				for eachline in sort:
-					wr.writerow(eachline)		
-
-		# with open('primary_index.csv','a',newline="") as myfile:
-		# 	wr=csv.writer(myfile,dialect="excel")
+					wr.writerow(eachline)
 
 		secondary_path = os.path.join('secondary files','secondary_index.csv')
 
@@ -104,9 +99,6 @@ def search(request):
 
 		titles=post_title		
 		return render(request,'display_post.html',{"blogs":blogs,"titles":titles})
-
-			# new_data={}
-			# for i in data
 	return render(request,'search.html')
 
 def delete(request):
@@ -144,15 +136,12 @@ def delete(request):
 				if row[1] != file_path:
 					writer.writerow(row)
 
-
 		with open(new_secondary_path,'r') as myfile, open (secondary_path,'w', newline='') as out:
 			rd=csv.reader(myfile,delimiter=",")
 			writer = csv.writer(out,dialect="excel")
 			for row in rd:
 				if row != '/n':
 					writer.writerow(row)
-
-
 
 		os.remove(file_path)
 
@@ -167,8 +156,6 @@ def delete(request):
 	return render(request,'delete.html')
 
 def signup(request):
-	# if request.user.is_authenticated:
-	# 	return 	redirect("/home/")
 
 	if request.method=="POST":
 		email=request.POST.get('email')
